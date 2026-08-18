@@ -1,0 +1,64 @@
+{
+  "app": {
+    "title": "Notes & Intervals Trainer"
+  },
+  "speech": {
+  "label": "Speak"
+  },
+  "theme": {
+    "toggle": "Toggle theme"
+  },
+  "delay": {
+    "label": "Delay (seconds):"
+  },
+  "notes": {
+    "title": "Notes",
+    "natural": "Natural",
+    "sharp": "Sharps",
+    "flat": "Flats",
+    "C": "C",
+    "C#": "C#",
+    "Db": "Db",
+    "D": "D",
+    "D#": "D#",
+    "Eb": "Eb",
+    "E": "E",
+    "F": "F",
+    "F#": "F#",
+    "Gb": "Gb",
+    "G": "G",
+    "G#": "G#",
+    "Ab": "Ab",
+    "A": "A",
+    "A#": "A#",
+    "Bb": "Bb",
+    "B": "B"
+  },
+  "intervals": {
+    "title": "Intervals",
+    "prime": "Unison",
+    "minor_second": "Minor 2nd",
+    "major_second": "Major 2nd",
+    "minor_third": "Minor 3rd",
+    "major_third": "Major 3rd",
+    "perfect_fourth": "Perfect 4th",
+    "tritone": "Tritone",
+    "perfect_fifth": "Perfect 5th",
+    "minor_sixth": "Minor 6th",
+    "major_sixth": "Major 6th",
+    "minor_seventh": "Minor 7th",
+    "major_seventh": "Major 7th",
+    "octave": "Octave"
+  },
+  "controls": {
+    "start": "Start",
+    "stop": "Stop"
+  },
+  "display": {
+    "placeholder": "Select items and press Start"
+  },
+  "language": {
+    "ru": "Русский",
+    "en": "English"
+  }
+}
