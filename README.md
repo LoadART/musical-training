@@ -1,32 +1,61 @@
-# React + TypeScript + Vite
+# 🎵 Musical Training PWA (NoteTrainer)
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+A Progressive Web Application designed for musicians and students to practice ear training, specifically focusing on note recognition and interval identification.
 
-Currently, two official plugins are available:
+## ✨ Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- **Customizable Training**: Select specific notes (natural, sharp, flat) and intervals to focus on.
+- **Adjustable Timing**: Set the delay (in seconds) between played items to match your skill level.
+- **Speech Synthesis**: Optional text-to-speech feedback that announces the played note/interval.
+- **Dark/Light Mode**: Seamless theme switching with persistent user preferences.
+- **Multilingual Support**: Built-in internationalization (i18n) for Russian and English.
+- **Offline Capable**: Functions as a PWA, allowing installation on mobile/desktop and offline use.
+- **Persistent Settings**: Your selections and preferences are automatically saved in local storage.
 
-## React Compiler
+## 🛠 Tech Stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- **Frontend**: React 19, TypeScript
+- **Build Tool**: Vite
+- **State Management**: React Hooks (Custom hooks for business logic)
+- **Styling**: Vanilla CSS with CSS Variables (Theming)
+- **Internationalization**: i18next + react-i18next
+- **Linting**: Oxlint
 
-## Expanding the Oxlint configuration
+## 🚀 Getting Started
 
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
+### Prerequisites
+- Node.js (v18 or higher)
+- npm, yarn, or pnpm
 
-```json
-{
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
-  "options": {
-    "typeAware": true
-  },
-  "rules": {
-    "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
-}
-```
+### Installation
 
-See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/LoadART/musical-training.git
+   cd musical-training
+2. Install dependencies:
+    npm install
+3. Start the development server:
+    npm run dev
+4. Open your browser and navigate to http://localhost:5173 (or the port shown in your terminal).
+
+### Building
+npm run build
+npm run preview
+
+### PWA Installation
+This app is a Progressive Web App. You can install it on your device:
+  **Desktop (Chrome/Edge):** Click the "Install" icon in the address bar.
+  **Mobile (iOS):** Tap the "Share" button and select "Add to Home Screen".
+  **Mobile (Android):** Tap the menu (⋮) and select "Install app" or "Add to Home screen".
+
+### Project structure
+src/
+├── components/       # Reusable UI components (Selectors, Inputs, Displays)
+├── constants/        # Static data (Notes, Intervals)
+├── context/          # Global state providers (Theme)
+├── hooks/            # Custom React hooks (useTrainer, useSpeech)
+├── i18n/             # Translation files and i18n configuration
+├── types/            # TypeScript interfaces and types
+├── App.tsx           # Main application orchestrator
+└── main.tsx          # Application entry point
