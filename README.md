@@ -52,10 +52,17 @@ This app is a Progressive Web App. You can install it on your device:
 ### Project structure
 src/
 ├── components/       # Reusable UI components (Selectors, Inputs, Displays)
+
 ├── constants/        # Static data (Notes, Intervals)
+
 ├── context/          # Global state providers (Theme)
+
 ├── hooks/            # Custom React hooks (useTrainer, useSpeech)
+
 ├── i18n/             # Translation files and i18n configuration
+
 ├── types/            # TypeScript interfaces and types
+
 ├── App.tsx           # Main application orchestrator
+
 └── main.tsx          # Application entry point
