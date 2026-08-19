@@ -33,16 +33,22 @@ A Progressive Web Application designed for musicians and students to practice ea
    ```bash
    git clone https://github.com/LoadART/musical-training.git
    cd musical-training
+   ```
 2. Install dependencies:
+   ```bash
     npm install
-3. Start the development server:
+   ```
+4. Start the development server:
+   ```bash
     npm run dev
-4. Open your browser and navigate to http://localhost:5173 (or the port shown in your terminal).
+   ```
+6. Open your browser and navigate to http://localhost:5173 (or the port shown in your terminal).
 
 ### Building
-npm run build
-npm run preview
-
+   ```bash
+   npm run build
+   npm run preview
+   ```
 ### PWA Installation
 This app is a Progressive Web App. You can install it on your device:
   **Desktop (Chrome/Edge):** Click the "Install" icon in the address bar.
@@ -50,20 +56,14 @@ This app is a Progressive Web App. You can install it on your device:
   **Mobile (Android):** Tap the menu (⋮) and select "Install app" or "Add to Home screen".
 
 ### Project structure
+```text
 src/
-
-   ├── components/       # Reusable UI components (Selectors, Inputs, Displays)
-
-   ├── constants/        # Static data (Notes, Intervals)
-
-   ├── context/          # Global state providers (Theme)
-
-   ├── hooks/            # Custom React hooks (useTrainer, useSpeech)
-
-   ├── i18n/             # Translation files and i18n configuration
-
-   ├── types/            # TypeScript interfaces and types
-
-   ├── App.tsx           # Main application orchestrator
-
-   └── main.tsx          # Application entry point
+├── components/       # Reusable UI components (Selectors, Inputs, Displays)
+├── constants/        # Static data (Notes, Intervals)
+├── context/          # Global state providers (Theme)
+├── hooks/            # Custom React hooks (useTrainer, useSpeech)
+├── i18n/             # Translation files and i18n configuration
+├── types/            # TypeScript interfaces and types
+├── App.tsx           # Main application orchestrator
+└── main.tsx          # Application entry point
+```
