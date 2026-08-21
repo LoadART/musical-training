@@ -1,7 +1,7 @@
 {
-  "name": "Тренажёр нот и интервалов",
+  "name": "music-training",
   "short_name": "NoteTrainer",
-  "description": "Приложение для тренировки нот и интервалов",
+  "description": "App for practicing notes and intervals",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
