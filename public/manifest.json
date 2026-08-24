@@ -2,12 +2,19 @@
   "name": "music-training",
   "short_name": "NoteTrainer",
   "description": "App for practicing notes and intervals",
-  "start_url": "/",
+  "start_url": "/musical-training/",
+  "scope": "/musical-training/",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#A143D7",
   "orientation": "portrait-primary",
   "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
     {
       "src": "icon-192.png",
       "sizes": "192x192",

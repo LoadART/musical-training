@@ -23,6 +23,7 @@ export interface UseTrainerReturn {
 /**
  * Custom hook that encapsulates the core business logic of the music trainer.
  * Manages persistent settings, playback state, interval timing, and speech synthesis.
+ * Implements a "deck" shuffling mechanism to prevent immediate repetition of items.
  * 
  * @param t - Translation function from react-i18next
  * @param language - Current language code (e.g., 'ru' or 'en') for speech synthesis
@@ -57,6 +58,58 @@ export const useTrainer = (t: (key: string) => string, language: string): UseTra
   
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
+  // --- Deck Management for Non-Repeating Random Selection ---
+  const deckRef = useRef<string[]>([]);
+  const deckIndexRef = useRef<number>(0);
+  const lastPlayedRef = useRef<string | null>(null);
+  /**
+   * Fisher-Yates shuffle algorithm to randomize array order in place.
+   * Ensures a truly uniform distribution of items.
+   */
+  const shuffleArray = useCallback((array: string[]): string[] => {
+    const shuffled = [...array];
+    for (let i = shuffled.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    return shuffled;
+  }, []);
+
+    /**
+   * Retrieves the next item from the shuffled deck.
+   * Automatically reshuffles the deck when all items have been exhausted.
+   * Includes a strict check to prevent the same item from playing twice in a row across deck boundaries.
+   */
+  const getNextItem = useCallback((): string => {
+    if (deckRef.current.length === 0) return '';
+    
+    // Reshuffle if we've reached the end of the current deck
+    if (deckIndexRef.current >= deckRef.current.length) {
+      deckRef.current = shuffleArray(deckRef.current);
+      deckIndexRef.current = 0;
+
+      // STRICT NO-REPEAT CHECK:
+      // If the new first item is the same as the last played item, swap it with the last item in the deck.
+      if (
+        deckRef.current.length > 1 && 
+        deckRef.current[0] === lastPlayedRef.current
+      ) {
+        const lastIndex = deckRef.current.length - 1;
+        // Swap first and last elements
+        [deckRef.current[0], deckRef.current[lastIndex]] = [
+          deckRef.current[lastIndex],
+          deckRef.current[0]
+        ];
+      }
+    }
+    
+    const item = deckRef.current[deckIndexRef.current];
+    lastPlayedRef.current = item; // Remember what we are about to play
+    deckIndexRef.current += 1;
+    
+    return item;
+  }, [shuffleArray]);
+
   // --- Persistence Effects ---
   useEffect(() => { localStorage.setItem('delay', delay.toString()); }, [delay]);
   useEffect(() => { localStorage.setItem('selectedNotes', JSON.stringify(selectedNotes)); }, [selectedNotes]);
@@ -65,8 +118,6 @@ export const useTrainer = (t: (key: string) => string, language: string): UseTra
 
   // --- Memoized Pool of Items to Play ---
   const allSelectedItems = useMemo(() => {
-    // Note: This relies on NOTES/INTERVALS being available. 
-    // For perfect isolation, we could pass them as arguments, but importing constants is fine here.
     const items = [
       ...selectedNotes.map(id => {
         const note = NOTES.find(n => n.id === id);
@@ -81,6 +132,17 @@ export const useTrainer = (t: (key: string) => string, language: string): UseTra
     return items;
   }, [selectedNotes, selectedIntervals, t]);
 
+  // Re-initialize the deck whenever the pool of selected items changes
+  useEffect(() => {
+    if (allSelectedItems.length > 0) {
+      deckRef.current = shuffleArray(allSelectedItems);
+      deckIndexRef.current = 0;
+    } else {
+      deckRef.current = [];
+      deckIndexRef.current = 0;
+    }
+  }, [allSelectedItems, shuffleArray]);
+
   // Using a stringified key to trigger the interval effect when the pool of items changes
   const itemsKey = allSelectedItems.join(',');
 
@@ -93,32 +155,32 @@ export const useTrainer = (t: (key: string) => string, language: string): UseTra
 
   // --- Playback Interval Effect ---
   useEffect(() => {
+    // Clear existing interval to prevent multiple timers running simultaneously
     if (intervalRef.current) {
       clearInterval(intervalRef.current);
       intervalRef.current = null;
     }
 
     if (isPlaying && allSelectedItems.length > 0) {
-      const getRandomItem = () => {
-        const randomIndex = Math.floor(Math.random() * allSelectedItems.length);
-        return allSelectedItems[randomIndex];
-      };
-
-      setCurrentItems([getRandomItem()]);
+      // Play the first item immediately
+      setCurrentItems([getNextItem()]);
+      
       const delayMs = delay * 1000;
       
+      // Set up the interval for subsequent items
       intervalRef.current = setInterval(() => {
-        setCurrentItems([getRandomItem()]);
+        setCurrentItems([getNextItem()]);
       }, delayMs);
     }
 
+    // Cleanup function to clear interval when component unmounts or dependencies change
     return () => {
       if (intervalRef.current) {
         clearInterval(intervalRef.current);
         intervalRef.current = null;
       }
     };
-  }, [isPlaying, delay, itemsKey, allSelectedItems]);
+  }, [isPlaying, delay, itemsKey, getNextItem]);
 
   // --- Control Handlers ---
   const handleStart = useCallback(() => {
